@@ -1,0 +1,10 @@
+dl.knnjs-dl {
+  width: 120px;
+  background: #fff;
+  border: 1px solid #000;
+  padding: 5px 15px;
+}
+
+.knnjs-boundary {
+  fill-opacity: 0.0;
+}

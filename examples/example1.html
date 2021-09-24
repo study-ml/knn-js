@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>KNN Example 1</title>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../dist/knnjs.js"></script>
+  <link rel="stylesheet" href="../dist/knnjs.min.css"></link>
+  <script>
+  </script>
+</head>
+<body>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum facere voluptas soluta iste possimus, dolorum aliquam alias cupiditate nostrum placeat laudantium, culpa perferendis, laboriosam omnis neque aperiam! Voluptas, necessitatibus, ipsa.</p>
+  <div id="myknn"></div>
+  <script>
+    var myknn = knnjs.knn();
+    myknn.init(document.getElementById("myknn"), {
+      selectedDataSet: [
+        {age: 37, year_of_operation: 63, positive_axillary_nodes: 0, survival_status: 1},
+        {age: 43, year_of_operation: 58, positive_axillary_nodes: 52, survival_status: 2},
+        {age: 43, year_of_operation: 59, positive_axillary_nodes: 2, survival_status: 2},
+        {age: 43, year_of_operation: 63, positive_axillary_nodes: 14, survival_status: 1},
+        {age: 43, year_of_operation: 64, positive_axillary_nodes: 2, survival_status: 1},
+        {age: 46, year_of_operation: 65, positive_axillary_nodes: 20, survival_status: 2},
+        {age: 48, year_of_operation: 66, positive_axillary_nodes: 0, survival_status: 1},
+        {age: 50, year_of_operation: 61, positive_axillary_nodes: 0, survival_status: 1},
+        {age: 54, year_of_operation: 62, positive_axillary_nodes: 0, survival_status: 1},
+        {age: 58, year_of_operation: 61, positive_axillary_nodes: 2, survival_status: 1}
+      ], 
+      selectedColumns: ["age", "year_of_operation"], 
+      clsName: "survival_status"
+    });
+  </script>
+</body>
+</html>
