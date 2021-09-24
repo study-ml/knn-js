@@ -113,8 +113,8 @@ exports.knn = function() {
   function buildColorMap() {
     var idx = 0;
     return gSelectedDataSet.reduce((total, curr) => {
-      if (!total.hasOwnProperty(curr[gClsName])) {
-        total[curr[gClsName]] = gColors[idx];
+      if (!total.hasOwnProperty(curr[gCategoryName])) {
+        total[curr[gCategoryName]] = gColors[idx];
         idx += 1;
       }
       return total;
@@ -190,23 +190,6 @@ exports.knn = function() {
     td.appendChild(divBtn);
     td.appendChild(document.createElement("hr"));
     td.appendChild(divCand);
-
-    // return `
-    //     <label for="kvalue">Choose a value for K: </label>
-    //     <select name="kvalue" id="kvalue" onchange="">
-    //       <option>3</option>
-    //       <option>4</option>
-    //       <option>5</option>
-    //     </select>
-    //     <div>
-    //       <dl class="knnjs-dl" id="legend">
-    //       </dl>
-    //     </div>
-    //     ${outerHTML(divBtn)}
-    //     <hr>
-    //     <div id="cand">
-    //     </div>
-    //   `;
   }
 
   function buildTable() {
@@ -226,8 +209,28 @@ exports.knn = function() {
     return table;
   }
 
+  function isValidOptions(options) {
+    if (options.selectedDataSet == null || options.selectedDataSet.length <= 0) {
+      return false;
+    }
+
+    if (options.selectedColumns == null || options.selectedColumns.length < 2) {
+      return false;
+    }
+
+    if (options.categoryName == null || options.categoryName == "") {
+      return false;
+    }
+
+    return true;
+  }
+
   let publicScope = {};
   publicScope.init = function(ele, options) {
+    if (!isValidOptions(options)) {
+      return;
+    }
+
     var extend = function(a, b){
       for (var key in b) {
         if (b.hasOwnProperty(key)) {
@@ -243,7 +246,7 @@ exports.knn = function() {
       width: 690,
       selectedDataSet: null, 
       selectedColumns: null, 
-      clsName: null,
+      categoryName: null,
       onSelect: null,
     }, options);
 
@@ -253,8 +256,9 @@ exports.knn = function() {
     gWidth = options.width;
     gSelectedDataSet = options.selectedDataSet; 
     gSelectedColumns = options.selectedColumns;
-    gClsName = options.clsName;
+    gCategoryName = options.categoryName;
 
+    ele.replaceChildren();
     ele.appendChild(buildTable());
     initInternal();
   }
@@ -264,7 +268,7 @@ exports.knn = function() {
     const yColName = gSelectedColumns[1];
     // console.log(xColName);
     // console.log(yColName);
-    // console.log(gClsName);
+    // console.log(gCategoryName);
     
     // reset everything
     d3.select('div#knn-data-vis > *').remove();
@@ -327,8 +331,8 @@ exports.knn = function() {
     const colorMap = buildColorMap();
     
     drawLegend(colorMap);
-    drawDecisionBoundry(svg, x, y, xMinVal, xMaxVal, yMinVal, yMaxVal, gSelectedDataSet, colorMap, xColName, yColName, gClsName, step);
-    drawTrainingData(svg, x, y, gSelectedDataSet, colorMap, xColName, yColName, gClsName);
+    drawDecisionBoundry(svg, x, y, xMinVal, xMaxVal, yMinVal, yMaxVal, gSelectedDataSet, colorMap, xColName, yColName, gCategoryName, step);
+    drawTrainingData(svg, x, y, gSelectedDataSet, colorMap, xColName, yColName, gCategoryName);
     
     const div = getOffset("knn-data-vis");
     d3.select('#knn-data-vis').on("click", function() {
@@ -346,7 +350,7 @@ exports.knn = function() {
         .attr("r", 5)
         .style("stroke", "black")
         .style("fill", function(d) {
-          const res = knn(xDot, yDot, gSelectedDataSet, parseInt(document.getElementById("kvalue").value), xColName, yColName, gClsName);
+          const res = knn(xDot, yDot, gSelectedDataSet, parseInt(document.getElementById("kvalue").value), xColName, yColName, gCategoryName);
           candidates = res["candidates"];
           // console.log(res);
           if (colorMap.hasOwnProperty(res["votes"])) {
