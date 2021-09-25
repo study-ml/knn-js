@@ -1,10 +1,11 @@
 # knn-js
 * Clickable/Interactive [k-NN algorithm](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) in javascript 
 * It can be integrated into a web application
+* It is based on [d3](https://d3js.org/)
 
 # Setup
 
-Include the libraries, `knn-js` is based on [d3](https://d3js.org/)
+Include the libraries
 
 ```html
 <script src="https://d3js.org/d3.v4.min.js"></script>
