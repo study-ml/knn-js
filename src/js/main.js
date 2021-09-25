@@ -110,17 +110,6 @@ exports.knn = function() {
       });
   }
 
-  // function buildColorMap() {
-  //   var idx = 0;
-  //   return gSelectedDataSet.reduce((total, curr) => {
-  //     if (!total.hasOwnProperty(curr[gCategoryName])) {
-  //       total[curr[gCategoryName]] = gColors[idx];
-  //       idx += 1;
-  //     }
-  //     return total;
-  //   }, {});
-  // }
-
   function drawLegend() {
     var legend = document.getElementById('legend');
 
