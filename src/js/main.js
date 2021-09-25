@@ -1,6 +1,6 @@
 exports.knn = function() {
   const gRadius = 5;
-  var gColors = null;
+  var gColorMap = {};
   var gHeight = null;
   var gWidth = null;
 
@@ -69,7 +69,7 @@ exports.knn = function() {
     };
   }
 
-  function drawDecisionBoundry(svg, x, y, xMinVal, xMaxVal, yMinVal, yMaxVal, data, colorMap, xColName, yColName, clsName, step) {
+  function drawDecisionBoundry(svg, x, y, xMinVal, xMaxVal, yMinVal, yMaxVal, data, xColName, yColName, clsName, step) {
     const scale = 5.5;
     for (var w=xMinVal-step; w<xMaxVal+step; w+=step/scale) {
       for (var h=yMinVal-step; h<yMaxVal+step; h+=step/scale) {
@@ -82,8 +82,8 @@ exports.knn = function() {
           .style("fill", function(d) {
             const res = knn(w, h, data, parseInt(document.getElementById("kvalue").value), xColName, yColName, clsName);
             // console.log(res);
-            if (colorMap.hasOwnProperty(res["votes"])) {
-              return colorMap[res["votes"]];
+            if (gColorMap.hasOwnProperty(res["votes"])) {
+              return gColorMap[res["votes"]];
             } else {
               return "black";
             }
@@ -92,7 +92,7 @@ exports.knn = function() {
     }
   }
 
-  function drawTrainingData(svg, x, y, data, colorMap, xColName, yColName, clsName) {
+  function drawTrainingData(svg, x, y, data, xColName, yColName, clsName) {
     svg.append('g')
       .selectAll("dot")
       .data(data)
@@ -102,31 +102,31 @@ exports.knn = function() {
       .attr("cy", function (d) { return y(d[yColName]); } )
       .attr("r", gRadius)
       .style("fill", function(d) {
-        if (colorMap.hasOwnProperty(d[clsName])) {
-          return colorMap[d[clsName]];
+        if (gColorMap.hasOwnProperty(d[clsName])) {
+          return gColorMap[d[clsName]];
         } else {
           return "black";
         }
       });
   }
 
-  function buildColorMap() {
-    var idx = 0;
-    return gSelectedDataSet.reduce((total, curr) => {
-      if (!total.hasOwnProperty(curr[gCategoryName])) {
-        total[curr[gCategoryName]] = gColors[idx];
-        idx += 1;
-      }
-      return total;
-    }, {});
-  }
+  // function buildColorMap() {
+  //   var idx = 0;
+  //   return gSelectedDataSet.reduce((total, curr) => {
+  //     if (!total.hasOwnProperty(curr[gCategoryName])) {
+  //       total[curr[gCategoryName]] = gColors[idx];
+  //       idx += 1;
+  //     }
+  //     return total;
+  //   }, {});
+  // }
 
-  function drawLegend(colorMap) {
+  function drawLegend() {
     var legend = document.getElementById('legend');
 
-    Object.keys(colorMap).forEach(function(key) {
+    Object.keys(gColorMap).forEach(function(key) {
       var dt = document.createElement("div");
-      dt.setAttribute("style", `float: left; width: 20px; height: 20px; vertical-align: middle; background: ${colorMap[key]}`);
+      dt.setAttribute("style", `float: left; width: 20px; height: 20px; vertical-align: middle; background: ${gColorMap[key]}`);
       legend.appendChild(dt);
       
       var dd = document.createElement("div");
@@ -241,7 +241,7 @@ exports.knn = function() {
     }
 
     options = extend({
-      colors: ["#FFB000", "#DC267F", "#648FFB", "#785EF0"],
+      colorMap: {},
       height: 640,
       width: 690,
       selectedDataSet: null, 
@@ -250,7 +250,7 @@ exports.knn = function() {
       onSelect: null,
     }, options);
 
-    gColors = options.colors;
+    gColorMap = options.colorMap;
     gOnSelect = options.onSelect;
     gHeight = options.height;
     gWidth = options.width;
@@ -328,11 +328,9 @@ exports.knn = function() {
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    const colorMap = buildColorMap();
-    
-    drawLegend(colorMap);
-    drawDecisionBoundry(svg, x, y, xMinVal, xMaxVal, yMinVal, yMaxVal, gSelectedDataSet, colorMap, xColName, yColName, gCategoryName, step);
-    drawTrainingData(svg, x, y, gSelectedDataSet, colorMap, xColName, yColName, gCategoryName);
+    drawLegend();
+    drawDecisionBoundry(svg, x, y, xMinVal, xMaxVal, yMinVal, yMaxVal, gSelectedDataSet, xColName, yColName, gCategoryName, step);
+    drawTrainingData(svg, x, y, gSelectedDataSet, xColName, yColName, gCategoryName);
     
     const div = getOffset("knn-data-vis");
     d3.select('#knn-data-vis').on("click", function() {
@@ -353,8 +351,8 @@ exports.knn = function() {
           const res = knn(xDot, yDot, gSelectedDataSet, parseInt(document.getElementById("kvalue").value), xColName, yColName, gCategoryName);
           candidates = res["candidates"];
           // console.log(res);
-          if (colorMap.hasOwnProperty(res["votes"])) {
-            return colorMap[res["votes"]];
+          if (gColorMap.hasOwnProperty(res["votes"])) {
+            return gColorMap[res["votes"]];
           } else {
             return "black";
           }
@@ -369,7 +367,7 @@ exports.knn = function() {
       
       for (var c=0; c<candidates.length; c++) {
         var candDiv = document.createElement("div");
-        candDiv.setAttribute("style", `background: ${colorMap[candidates[c]["s"]]}`);
+        candDiv.setAttribute("style", `background: ${gColorMap[candidates[c]["s"]]}`);
         candDiv.innerText = `${candidates[c]["s"]}, x: ${candidates[c]["x"]}, y: ${candidates[c]["y"]}`;
         cand.appendChild(candDiv);
         

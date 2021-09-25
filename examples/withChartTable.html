@@ -26,7 +26,7 @@
       height: 540,
       onSelect: function(data) {
         myknn.init(document.getElementById("myknn"), {
-          colors: tol_vibrant,
+          colorMap: data.selectedColorMap,
           selectedDataSet: data.selectedRows, 
           selectedColumns: data.selectedColumns, 
           categoryName: data.categoryName
