@@ -3,6 +3,9 @@ exports.knn = function() {
   var gColorMap = {};
   var gHeight = null;
   var gWidth = null;
+  var gSelectedDataSet = null;
+  var gSelectedColumns = null;
+  var gCategoryName = null;
 
   function getVotingResult(chunks) {
     var max = 0;
@@ -242,11 +245,9 @@ exports.knn = function() {
       selectedDataSet: null, 
       selectedColumns: null, 
       categoryName: null,
-      onSelect: null,
     }, options);
 
     gColorMap = options.colorMap;
-    gOnSelect = options.onSelect;
     gHeight = options.height;
     gWidth = options.width;
     gSelectedDataSet = options.selectedDataSet; 
