@@ -135,6 +135,12 @@ exports.knn = function() {
     }
   }
 
+  function emptyChild(ele) {
+    while (ele.firstChild) {
+      ele.removeChild(ele.firstChild);
+    }
+  }
+
   function buildKnnHtml(td) {
     var divBtn = document.createElement("div");
     var btn = document.createElement("button");
@@ -261,15 +267,12 @@ exports.knn = function() {
     
     // reset everything
     d3.select('div#knn-data-vis > *').remove();
+    
     var cand = document.getElementById('cand');
-    while(cand.firstChild) {
-      cand.removeChild(cand.firstChild);
-    }
+    emptyChild(cand);
 
     var legend = document.getElementById('legend');
-    while(legend.firstChild) {
-      legend.removeChild(legend.firstChild);
-    }
+    emptyChild(legend);
 
     // margin is for legends
     var margin = {top: 10, right: 30, bottom: 40, left: 60},
@@ -347,9 +350,8 @@ exports.knn = function() {
           }
         });
       
-      while (cand.firstChild) {
-        cand.removeChild(cand.firstChild);
-      }
+      emptyChild(cand);
+
       var titleDiv = document.createElement("div");
       titleDiv.innerText = "nearest neighbors:";
       cand.appendChild(titleDiv);
