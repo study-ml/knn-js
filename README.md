@@ -3,6 +3,8 @@
 * It can be integrated into a web application
 * It is based on [d3](https://d3js.org/)
 
+![demo](imgs/knnez.gif)
+
 # Setup
 
 Include the libraries
