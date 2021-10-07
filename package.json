@@ -1,0 +1,21 @@
+{
+  "name": "knn-js",
+  "version": "1.0.0",
+  "description": "knn algorithm in javascript",
+  "main": "dist/knnjs.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": ["dist/*.js", "dist/*.css"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/study-ml/knn-js.git"
+  },
+  "author": "Lee, Yun-Wei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/study-ml/knn-js/issues"
+  },
+  "homepage": "https://github.com/study-ml/knn-js#readme"
+}
+
