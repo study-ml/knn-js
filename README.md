@@ -16,7 +16,10 @@ Include the libraries
 ```
 
 ## CDN - UNPKG
-* TODO
+```html
+<script type="text/javascript" src="https://unpkg.com/knn-js@1.0.0/dist/knnjs.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/knn-js@1.0.0/dist/knnjs.min.css" />  
+```
 
 # Usage
 ## Hello World example
@@ -114,6 +117,3 @@ mytable.showDataset([
 
 # TODO
 * use `webpack` to build
-* publish to npm and `CDN - UNPKG`
-* remove `charttable.min.js` once we can publish to npm
- 
